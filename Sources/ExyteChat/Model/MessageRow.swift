@@ -63,7 +63,6 @@ struct MessageRow: Equatable {
         lhs.id == rhs.id
         && lhs.positionInUserGroup == rhs.positionInUserGroup
         && lhs.commentsPosition == rhs.commentsPosition
-        && lhs.message.status == rhs.message.status
         && lhs.message.triggerRedraw == rhs.message.triggerRedraw
     }
 }

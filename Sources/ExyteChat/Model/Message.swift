@@ -7,46 +7,10 @@
 
 import SwiftUI
 
-public struct Message: Identifiable, Hashable {
-
-    public enum Status: Equatable, Hashable {
-        case sending
-        case sent
-        case read
-        case error(DraftMessage)
-
-        public func hash(into hasher: inout Hasher) {
-            switch self {
-            case .sending:
-                return hasher.combine("sending")
-            case .sent:
-                return hasher.combine("sent")
-            case .read:
-                return hasher.combine("read")
-            case .error:
-                return hasher.combine("error")
-            }
-        }
-
-        public static func == (lhs: Message.Status, rhs: Message.Status) -> Bool {
-            switch (lhs, rhs) {
-            case (.sending, .sending):
-                return true
-            case (.sent, .sent):
-                return true
-            case (.read, .read):
-                return true
-            case ( .error(_), .error(_)):
-                return true
-            default:
-                return false
-            }
-        }
-    }
+public struct Message: Identifiable, Hashable, Codable {
 
     public var id: String
     public var user: User
-    public var status: Status?
     public var createdAt: Date
 
     public var text: String
@@ -58,7 +22,6 @@ public struct Message: Identifiable, Hashable {
 
     public init(id: String,
                 user: User,
-                status: Status? = nil,
                 createdAt: Date = Date(),
                 text: String = "",
                 attachments: [Attachment] = [],
@@ -67,7 +30,6 @@ public struct Message: Identifiable, Hashable {
 
         self.id = id
         self.user = user
-        self.status = status
         self.createdAt = createdAt
         self.text = text
         self.attachments = attachments
@@ -78,7 +40,6 @@ public struct Message: Identifiable, Hashable {
     public static func makeMessage(
         id: String,
         user: User,
-        status: Status? = nil,
         draft: DraftMessage) async -> Message {
             let attachments = await draft.medias.asyncCompactMap { media -> Attachment? in
                 guard let thumbnailURL = await media.getThumbnailURL() else {
@@ -96,7 +57,7 @@ public struct Message: Identifiable, Hashable {
                 }
             }
 
-            return Message(id: id, user: user, status: status, createdAt: draft.createdAt, text: draft.text, attachments: attachments, recording: draft.recording, replyMessage: draft.replyMessage)
+            return Message(id: id, user: user, createdAt: draft.createdAt, text: draft.text, attachments: attachments, recording: draft.recording, replyMessage: draft.replyMessage)
         }
 }
 
@@ -110,7 +71,6 @@ extension Message: Equatable {
     public static func == (lhs: Message, rhs: Message) -> Bool {
         lhs.id == rhs.id &&
         lhs.user == rhs.user &&
-        lhs.status == rhs.status &&
         lhs.createdAt == rhs.createdAt &&
         lhs.text == rhs.text &&
         lhs.attachments == rhs.attachments &&

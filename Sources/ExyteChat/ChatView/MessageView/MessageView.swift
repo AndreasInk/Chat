@@ -103,15 +103,6 @@ struct MessageView: View {
                 }
                 bubbleView(message)
             }
-
-            if message.user.isCurrentUser, let status = message.status {
-                MessageStatusView(status: status) {
-                    if case let .error(draft) = status {
-                        viewModel.sendMessage(draft)
-                    }
-                }
-                .sizeGetter($statusSize)
-            }
         }
         .padding(.top, topPadding)
         .padding(.bottom, bottomPadding)
@@ -305,7 +296,6 @@ struct MessageView_Preview: PreviewProvider {
     static private var replyedMessage = Message(
         id: UUID().uuidString,
         user: stan,
-        status: .read,
         text: longMessage,
         attachments: [
             Attachment.randomImage(),
@@ -319,7 +309,6 @@ struct MessageView_Preview: PreviewProvider {
     static private var message = Message(
         id: UUID().uuidString,
         user: stan,
-        status: .read,
         text: shortMessage,
         replyMessage: replyedMessage.toReplyMessage()
     )
