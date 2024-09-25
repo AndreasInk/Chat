@@ -7,8 +7,9 @@
 
 import Foundation
 import ExyteChat
+#if os(iOS)
 import UIKit
-
+#endif
 let hasCurrentSessionKey = "hasCurrentSession"
 let currentUserKey = "currentUser"
 
@@ -25,7 +26,11 @@ class SessionManager {
     }
 
     var deviceId: String {
+#if os(iOS)
         UIDevice.current.identifierForVendor?.uuidString ?? ""
+        #else
+        UUID().uuidString
+        #endif
     }
 
     @Published private var currentUser: User?

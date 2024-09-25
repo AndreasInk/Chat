@@ -1,7 +1,7 @@
 //
 //  Created by Alex.M on 02.10.2023.
 //
-
+#if os(iOS)
 import Foundation
 import Combine
 import UIKit
@@ -32,3 +32,4 @@ private extension KeyboardState {
         .store(in: &subscriptions)
     }
 }
+#endif

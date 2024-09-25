@@ -3,7 +3,9 @@
 //
 
 import Foundation
+#if os(iOS)
 import UIKit
+#endif
 import ExyteChat
 import ExyteMediaPicker
 
@@ -34,17 +36,14 @@ final class MockChatData {
         let images = randomImages()
 
         let shouldGenerateText = images.isEmpty ? true : .random()
-
+    
         return MockMessage(
             uid: UUID().uuidString,
             sender: sender,
             createdAt: date,
-            status: sender.isCurrentUser ? .read : nil,
             text: shouldGenerateText ? Lorem.sentence(nbWords: Int.random(in: 3...10), useMarkdown: true) : "",
             images: images,
-            videos: [],
-            recording: nil,
-            replyMessage: nil
+            videos: []
         )
     }
 
@@ -147,3 +146,4 @@ extension DraftMessage {
         )
     }
 }
+
