@@ -27,6 +27,10 @@ let package = Package(
             url: "https://github.com/exyte/ActivityIndicatorView",
             from: "1.0.0"
         ),
+        .package(
+            url: "https://github.com/exyte/MediaPicker.git",
+            from: "2.0.0"
+        ),
     ],
     targets: [
         .target(
@@ -34,7 +38,8 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
                 .product(name: "FloatingButton", package: "FloatingButton"),
-                .product(name: "ActivityIndicatorView", package: "ActivityIndicatorView")
+                .product(name: "ActivityIndicatorView", package: "ActivityIndicatorView"),
+                .product(name: "ExyteMediaPicker", package: "MediaPicker")
             ]
         ),
         .testTarget(
